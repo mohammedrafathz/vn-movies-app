@@ -55,7 +55,7 @@ const UPDATE_VEHICLE_MUTATION = gql`
 }
 `
 
-const CLOUDINARY_ENDPOINT: any = process.env.REACT_APP_CLOUDINARY_ENDPOINT;
+const CLOUDINARY_ENDPOINT: any = "https://api.cloudinary.com/v1_1/dodlvcr8h/image/upload";
 
 interface VehicleDialogProps {
   vehicleId?: string
