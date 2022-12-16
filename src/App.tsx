@@ -6,22 +6,18 @@ import {createBrowserRouter, RouterProvider} from 'react-router-dom';
 
 import Home from './Components/Home';
 import LaunchDetails from './Components/LaunchDetails';
+import Vehicles from './Components/Vehicles';
+import VehicleDetails from './Components/VehicleDetails';
 
 const httpLink = new HttpLink({uri: "https://api.spacex.land/graphql/"})
-// const authLink = setContext(async (req, {headers}) => {
-//   const token = localStorage.getItem("token")
+const vehicleLink = new HttpLink({uri: "https://vn-movies-backend.vercel.app/"})
 
-//   return {
-//     ...headers,
-//     headers: {
-//       Authorization: token ? `Bearer ${token}` : null
-//     }
-//   }
-// })
-
-// const link = authLink.concat(httpLink as any)
 const client = new ApolloClient({
   link: httpLink,
+  cache: new InMemoryCache()
+})
+const vehicleClient = new ApolloClient({
+  link: vehicleLink,
   cache: new InMemoryCache()
 })
 
@@ -29,22 +25,40 @@ const routes = createBrowserRouter([
   {
     path: "/",
     element: (
-      <Home />
+      <ApolloProvider client={client}>
+        <Home />
+      </ApolloProvider>
     ),
   },
   {
     path: "/details/:id",
     element: (
-      <LaunchDetails />
+      <ApolloProvider client={client}>
+        <LaunchDetails />
+      </ApolloProvider>
+    ),
+  },
+  {
+    path: "/vehicles",
+    element: (
+      <ApolloProvider client={vehicleClient}>
+        <Vehicles />
+      </ApolloProvider>
+    ),
+  },
+  {
+    path: "/vehicle-details/:id",
+    element: (
+      <ApolloProvider client={vehicleClient}>
+        <VehicleDetails />
+      </ApolloProvider>
     ),
   },
 ]);
 
 function App() {
   return (
-    <ApolloProvider client={client}>
-      <RouterProvider router={routes} />
-    </ApolloProvider>
+    <RouterProvider router={routes} />
   );
 }
 

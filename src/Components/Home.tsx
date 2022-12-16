@@ -4,11 +4,11 @@ import {experimentalStyled as styled} from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
-import {CircularProgress, Typography} from '@mui/material';
+import {Button, CircularProgress, Typography} from '@mui/material';
 import {Link} from 'react-router-dom';
 
 
-const Item = styled(Paper)(({theme}) => ({
+export const Item = styled(Paper)(({theme}) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
   padding: theme.spacing(2),
@@ -53,17 +53,18 @@ const Home = () => {
   const {loading, error, data} = useQuery(LAUNCH_LIST_QUERY);
 
   if (loading) return (
-    <Box sx={{position: 'absolute', top: '50%', left:'50%'}}>
+    <Box sx={{position: 'absolute', top: '50%', left: '50%'}}>
       <CircularProgress />
     </Box>
   );
 
   if (error) return <p>{error.message}</p>;
 
-  console.log(data);
-
   return (
     <OutlinePaper>
+      <Button component={Link} to="/vehicles" variant="contained" color="primary">
+        Open Vehicles CRUD App
+      </Button>
       <Typography variant="h4" component="h2" align='center' gutterBottom>
         SpaceX Previous Missions
       </Typography>
